@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WordBridge — PDF to Word Converter: PDF to Editable DOCX Free Online</title>
+<meta name="description" content="Free PDF-to-Word converter. Turn a PDF into an editable .docx with headings detected from font sizes, page breaks preserved and a plain-text fallback — in-browser.">
+<link rel="canonical" href="https://wordbridge.fixoraa.tech/">
+<meta property="og:title" content="WordBridge — PDF to Word Converter: PDF to Editable DOCX Free Online">
+<meta property="og:description" content="Free PDF-to-Word converter. Turn a PDF into an editable .docx with headings detected from font sizes, page breaks preserved and a plain-text fallback — in-browser.">
+<meta property="og:url" content="https://wordbridge.fixoraa.tech/">
+<meta property="og:type" content="website">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+<script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';</script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<style>
+:root{--pri:#1D4ED8;--acc:#F43F5E;--bgc:#EFF6FF}
+body{background:var(--bgc);font-family:'Segoe UI',system-ui,sans-serif}
+.pri{background:var(--pri)} .prit{color:var(--pri)}
+.btn{background:var(--pri);color:#fff;padding:.6rem 1.2rem;border-radius:.6rem;font-weight:600;cursor:pointer;border:none}
+.btn:hover{opacity:.9} .btn2{background:var(--acc);color:#111;padding:.6rem 1.2rem;border-radius:.6rem;font-weight:600;cursor:pointer;border:none}
+.btn:disabled,.btn2:disabled{opacity:.45;cursor:not-allowed}
+input,select,textarea{border:1.5px solid #cbd5e1;border-radius:.55rem;padding:.55rem .7rem;width:100%;background:#fff;color:#0f172a}
+input[type=file]{padding:.45rem .6rem} input[type=range]{padding:0} input[type=checkbox],input[type=radio]{width:auto}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--pri);border-color:transparent}
+label{font-size:.83rem;font-weight:600;display:block;margin-bottom:.3rem}
+.card{background:#fff;border-radius:1rem;box-shadow:0 8px 30px rgba(15,23,42,.08);padding:1.4rem}
+article p{margin:.7rem 0;line-height:1.75;color:#334155}
+article h2{font-size:1.45rem;font-weight:800;margin:1.6rem 0 .4rem;color:#0f172a}
+.faq{background:#fff;border-radius:.7rem;padding:.9rem 1.1rem;margin:.55rem 0;box-shadow:0 2px 10px rgba(15,23,42,.05)}
+.faq summary{font-weight:700;cursor:pointer}
+table.dt{width:100%;border-collapse:collapse} table.dt th,table.dt td{border:1px solid #e2e8f0;padding:.45rem .6rem;text-align:left;font-size:.9rem}
+table.dt th{background:#f1f5f9}
+.drop{border:2px dashed #94a3b8;border-radius:.8rem;padding:1.1rem;text-align:center;background:#f8fafc}
+canvas.prev{max-width:100%;border:1px solid #e2e8f0;border-radius:.5rem;background:#fff}
+
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "WordBridge", "url": "https://wordbridge.fixoraa.tech/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Free PDF-to-Word converter. Turn a PDF into an editable .docx with headings detected from font sizes, page breaks preserved and a plain-text fallback \u2014 in-browser."}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Will the Word file look exactly like the PDF?", "acceptedAnswer": {"@type": "Answer", "text": "The words, order, paragraphs and headings are rebuilt faithfully, in a clean editable layout. Exact visual replication is not possible from PDF's coordinate-based format \u2014 columns flatten to reading order and tables become sequential text \u2014 which is why a structure report is shown before you download."}}, {"@type": "Question", "name": "Why did my scanned PDF convert to almost nothing?", "acceptedAnswer": {"@type": "Answer", "text": "Scans store pages as images with no text layer to convert. Run the file through OCR first (PDFSeer builds a text layer), then convert the result to Word."}}, {"@type": "Question", "name": "How are headings decided?", "acceptedAnswer": {"@type": "Answer", "text": "Lines typeset notably larger than the page's typical body size \u2014 and short enough to be titles \u2014 become Heading 1 or Heading 2 paragraphs, restoring Word's navigation and contents machinery."}}, {"@type": "Question", "name": "Can I open the .docx anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It is a standard Word document, opening in Microsoft Word, Google Docs, LibreOffice and Apple Pages. A plain .txt version is also provided for maximum simplicity."}}, {"@type": "Question", "name": "Does conversion keep page breaks?", "acceptedAnswer": {"@type": "Answer", "text": "Optionally, yes \u2014 leave the setting on and each PDF page ends with a page break in Word, mirroring the original's structure. Turn it off for flowing text you plan to re-typeset."}}, {"@type": "Question", "name": "Is my document uploaded to a server?", "acceptedAnswer": {"@type": "Answer", "text": "No. Extraction and .docx assembly happen entirely in your browser; your document and its text never leave your device."}}]}</script>
+</head>
+<body id="top">
+<header class="sticky top-0 z-40 shadow-md" style="background:#172554">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-3 flex items-center justify-between">
+    <a href="#top" class="text-xl font-extrabold tracking-tight" style="color:#EFF6FF">🌉 WordBridge</a>
+    <nav class="flex gap-5 text-sm font-semibold" style="color:#EFF6FF">
+      <a href="#top" class="hover:underline">Home</a>
+      <a href="https://fixoraa.tech" class="hover:underline">More Tools</a>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="mx-auto max-w-6xl px-4 sm:px-6 py-8">
+  <div class="text-center mb-6">
+    <h1 class="text-3xl sm:text-4xl font-extrabold" style="color:#0f172a">Convert PDF to Word — Editable DOCX Free</h1>
+    <p class="mt-2 text-slate-600 max-w-2xl mx-auto">The PDF is finished; the edits are not. WordBridge rebuilds your document as an editable Word file — paragraphs restored, likely headings promoted, page breaks marked — so the words can go back to work.</p>
+    <span class="inline-block mt-3 px-3 py-1 rounded-full text-xs font-bold text-white pri">✓ Unlimited Free Usage — No Signup, No Watermark</span>
+    <p class="mt-2 text-xs text-slate-500">🔒 100% private: your file is processed entirely in your browser and never uploaded to any server.</p>
+  </div>
+  <div class="grid md:grid-cols-5 gap-6">
+  <div class="card md:col-span-2 space-y-3">
+    <div class="drop"><label>Your PDF</label><input id="file" type="file" accept="application/pdf"></div>
+    <div><label><input type="checkbox" id="breaks" checked> Insert a page break after each PDF page</label></div>
+    <div><label><input type="checkbox" id="heads" checked> Detect headings from larger font sizes</label></div>
+    <button class="btn w-full" id="go" onclick="run()">Convert to Word</button>
+    <div class="flex gap-2"><button class="btn2 flex-1" id="dl" style="display:none">⬇ Download .docx</button><button class="btn2 flex-1" id="dlt" style="display:none">⬇ Download .txt</button></div>
+    <p id="status" class="text-sm font-semibold"></p>
+  </div>
+  <div class="card md:col-span-3">
+    <h3 class="font-bold mb-2">Structure found</h3>
+    <div id="rep" class="text-sm text-slate-600">WordBridge reports what it rebuilt here — paragraphs, detected headings and pages — so you know the shape of your Word document before you open it. Complex layouts (columns, tables, text boxes) flatten into reading order; the words and their order are faithful.</div>
+  </div></div>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script async src="https://js.wpadmngr.com/static/adManager.js" data-admpid="464498"></script>
+    </div>
+  </div>
+</div>
+<section class="mx-auto max-w-4xl px-4 sm:px-6 pb-6">
+  <article>
+  <h2>PDF is where documents go to retire — Word is where they work</h2>
+<p>The PDF format was designed to freeze a document: same fonts, same layout, everywhere, forever. That permanence is glorious for publishing and miserable for editing. Yet life keeps demanding edits to finished documents — the proposal that must be updated with new pricing, the report whose source file left with a departed colleague, the contract template locked in a PDF the whole office copies from. Converting back to Word is the bridge between the archive and the workshop, and it is one of the most requested document operations on earth for exactly that reason.</p>
+<p>WordBridge rebuilds the document as a genuine, editable .docx — not a picture of the pages pasted into Word, which is the lazy trick some converters pull. Paragraphs are paragraphs again: you can retype, restyle, delete and restructure them. Headings are detected from their larger type and promoted to real Word heading styles, so the document's navigation pane and table-of-contents machinery work the moment you open the file.</p>
+<h2>What conversion can promise, and what it cannot</h2>
+<p>Set expectations like a professional and conversion delights; expect magic and it disappoints. What carries over faithfully: the words, their reading order, paragraph groupings, heading hierarchy inferred from font sizes, and page boundaries. What flattens: multi-column layouts become single-column reading order, tables become sequential text (their words survive; their grid does not), and text in logos, stamps and images is not reconstructed, because it was never text. Floating elements — sidebars, callouts, wrapped figures — join the main flow at their reading position.</p>
+<p>That profile suits the jobs conversion actually serves: recovering lost source documents, repurposing content, updating text, translating, reformatting for a new template. It does not suit pixel-perfect republication, which no converter honestly offers from a format that stores characters at coordinates rather than in flowing structure. WordBridge's structure report tells you what was rebuilt — paragraph and heading counts per document — so you open the .docx knowing its shape, and the included .txt fallback guarantees the words in their purest form even if your needs are simpler than Word.</p>
+<h2>How heading detection works — and why it matters</h2>
+<p>A document without headings is a wall; a document with them is a building with floors. WordBridge estimates each page's typical body size, then promotes lines set substantially larger — the way real headings are typeset — into Heading 1 or Heading 2 paragraphs, with short line length as a supporting signal so a stray large word in a poster does not become a chapter title. The promotion threshold is conservative by design: a missed heading costs you one manual restyle, while a false one scrambles the document's outline.</p>
+<p>The payoff arrives in Word immediately: the navigation pane shows the document's skeleton, a table of contents can be generated in two clicks, and screen readers gain the structure they need. For long recovered documents — the fifty-page manual, the thesis whose source died with an old laptop — restored headings are the difference between a file you can work in and a file you must first spend an hour re-scaffolding.</p>
+<h2>How to convert a PDF to Word, step by step</h2>
+<p>Load a born-digital PDF — conversion reads the text layer, so scanned documents must be OCR'd first (PDFSeer does that job) or they will yield empty pages, honestly reported by low paragraph counts. Leave heading detection on unless your document is a poster or form where large type is decorative. Keep page breaks on for reports and anything paginated, so the Word file's flow mirrors the original's structure; turn them off for flowing prose you intend to re-typeset anyway.</p>
+<p>Press Convert, read the structure report, and download the .docx. Open it in Word, Google Docs or LibreOffice and do the professional once-over: check that headings nest sensibly, spot-check a dense page against the original, and rebuild any table that mattered — now a quick job, since its text is already in the file in order. Save under a working name, and keep the PDF as the frozen record it was designed to be.</p>
+<h2>The everyday resurrections</h2>
+<p>Every office has a drawer of these: the price list maintained by editing last year's PDF printout; the policy document whose author and source vanished in a reorganisation; the grant proposal that must become this year's, with figures changed; the translated brochure, where the agency needs text in a document, not a fossil. Conversion turns each from an archaeological problem into an editing task. Teachers convert worksheets to adapt them; students convert readings to annotate and reorganise; publishers convert backlist PDFs into manuscripts a modern workflow can typeset.</p>
+<p>There is a discipline that makes these resurrections painless: convert once, clean once, then declare the .docx the new source of truth and archive the PDF beside it. Teams that convert ad hoc, repeatedly, from slightly different PDFs, breed version chaos. The bridge is meant to be crossed in one direction — archive to workshop — and then the workshop copy carries the work forward.</p>
+<h2>Privacy: unpublished words stay unpublished</h2>
+<p>The documents most in need of conversion are drafts, contracts and internal reports — content whose whole value lies in not being public yet. WordBridge converts inside your browser tab: the PDF's text layer is read locally, the .docx is assembled in your device's memory by a zip library running on your machine, and the result downloads directly. No server ever sees the document, the text or the conversion.</p>
+<p>That locality removes the usual converter anxieties — the upload of a confidential file to an unknown operator, the retention policy in the fine print, the download link emailed to an address. It also removes the friction tiers: no page limits, no 'free for the first five pages', no queue. Your workshop, your documents, your bridge.</p>
+  <h2>Frequently Asked Questions</h2>
+  <details class="faq"><summary>Will the Word file look exactly like the PDF?</summary><p>The words, order, paragraphs and headings are rebuilt faithfully, in a clean editable layout. Exact visual replication is not possible from PDF's coordinate-based format — columns flatten to reading order and tables become sequential text — which is why a structure report is shown before you download.</p></details>
+<details class="faq"><summary>Why did my scanned PDF convert to almost nothing?</summary><p>Scans store pages as images with no text layer to convert. Run the file through OCR first (PDFSeer builds a text layer), then convert the result to Word.</p></details>
+<details class="faq"><summary>How are headings decided?</summary><p>Lines typeset notably larger than the page's typical body size — and short enough to be titles — become Heading 1 or Heading 2 paragraphs, restoring Word's navigation and contents machinery.</p></details>
+<details class="faq"><summary>Can I open the .docx anywhere?</summary><p>Yes. It is a standard Word document, opening in Microsoft Word, Google Docs, LibreOffice and Apple Pages. A plain .txt version is also provided for maximum simplicity.</p></details>
+<details class="faq"><summary>Does conversion keep page breaks?</summary><p>Optionally, yes — leave the setting on and each PDF page ends with a page break in Word, mirroring the original's structure. Turn it off for flowing text you plan to re-typeset.</p></details>
+<details class="faq"><summary>Is my document uploaded to a server?</summary><p>No. Extraction and .docx assembly happen entirely in your browser; your document and its text never leave your device.</p></details>
+  </article>
+</section>
+<footer class="mt-6 py-8" style="background:#172554;color:#EFF6FF">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 text-center text-sm">
+    <p class="font-bold text-base">WordBridge</p>
+    <p class="opacity-80 mt-1">Free PDF-to-Word converter. Turn a PDF into an editable .docx with headings detected from font sizes, page breaks preserved and a plain-text fallback — in-browser.</p>
+    <p class="mt-2"><a href="#top" class="underline">Home</a> · <a href="https://fixoraa.tech" class="underline">More Tools</a></p>
+    <p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+  </div>
+</footer>
+<script>
+
+const $=id=>document.getElementById(id);
+function fmtBytes(b){if(b===0)return '0 B';const k=1024,s=['B','KB','MB','GB'];const i=Math.floor(Math.log(b)/Math.log(k));return (b/Math.pow(k,i)).toFixed(i?1:0)+' '+s[i];}
+function setStatus(m,ok){const el=$('status');if(!el)return;el.textContent=m;el.style.color=ok===false?'#dc2626':'inherit';}
+function download(bytes,name,type){const blob=bytes instanceof Blob?bytes:new Blob([bytes],{type:type||'application/pdf'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},800);}
+async function readFile(input){const f=input.files&&input.files[0];if(!f)throw new Error('Please choose a PDF file first.');return {file:f,buf:await f.arrayBuffer()};}
+function showDl(id,bytes,name){const b=$(id);b.style.display='inline-block';b.onclick=()=>download(bytes,name);}
+
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+async function run(){
+  const btn=$('go'); btn.disabled=true;
+  try{
+    const {file,buf}=await readFile($('file'));
+    const doc=await pdfjsLib.getDocument({data:buf}).promise;
+    const paras=[]; let heads=0, plain=[];
+    for(let i=1;i<=doc.numPages;i++){
+      const page=await doc.getPage(i);
+      const tc=await page.getTextContent();
+      const lines=[]; let cur=null;
+      for(const it of tc.items){
+        const size=Math.round(Math.abs(it.transform[3])*10)/10;
+        const y=Math.round(it.transform[5]);
+        if(!cur||Math.abs(y-cur.y)>3){ cur={y:y,size:size,text:''}; lines.push(cur); }
+        cur.text+=it.str+' '; cur.size=Math.max(cur.size,size);
+      }
+      const sizes=lines.map(l=>l.size).sort((a,b)=>a-b); const median=sizes[Math.floor(sizes.length/2)]||11;
+      let buf2='';
+      const flush=()=>{ if(buf2.trim()){ paras.push({t:buf2.trim(),h:0}); plain.push(buf2.trim()); } buf2=''; };
+      for(const ln of lines){
+        const txt=ln.text.trim(); if(!txt) { flush(); continue; }
+        if($('heads').checked && ln.size>=median*1.35 && txt.length<110){ flush(); paras.push({t:txt,h:ln.size>=median*1.7?1:2}); plain.push(txt); heads++; }
+        else buf2+=txt+' ';
+      }
+      flush();
+      if($('breaks').checked && i<doc.numPages) paras.push({t:'',brk:1});
+      setStatus('Rebuilding page '+i+' of '+doc.numPages+'…');
+    }
+    const body=paras.map(p=> p.brk? '<w:p><w:r><w:br w:type="page"/></w:r></w:p>' : '<w:p>'+(p.h?'<w:pPr><w:pStyle w:val="Heading'+p.h+'"/></w:pPr>':'')+'<w:r><w:t xml:space="preserve">'+esc(p.t)+'</w:t></w:r></w:p>').join('');
+    const xml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>'+body+'<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:bottom="1134" w:left="1134" w:right="1134"/></w:sectPr></w:body></w:document>';
+    const styles='<?xml version="1.0"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:style w:type="paragraph" w:styleId="Heading1"><w:name w:val="heading 1"/><w:pPr><w:spacing w:before="280" w:after="120"/></w:pPr><w:rPr><w:b/><w:sz w:val="32"/></w:rPr></w:style><w:style w:type="paragraph" w:styleId="Heading2"><w:name w:val="heading 2"/><w:pPr><w:spacing w:before="220" w:after="100"/></w:pPr><w:rPr><w:b/><w:sz w:val="26"/></w:rPr></w:style></w:styles>';
+    const zip=new JSZip();
+    zip.file('[Content_Types].xml','<?xml version="1.0"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>');
+    zip.folder('_rels').file('.rels','<?xml version="1.0"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
+    zip.folder('word').folder('_rels').file('document.xml.rels','<?xml version="1.0"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>');
+    zip.folder('word').file('document.xml',xml); zip.folder('word').file('styles.xml',styles);
+    const blob=await zip.generateAsync({type:'blob'});
+    showDl('dl',blob,file.name.replace(/\.pdf$/i,'')+'.docx');
+    showDl('dlt',new Blob([plain.join('\n\n')],{type:'text/plain'}),file.name.replace(/\.pdf$/i,'')+'.txt');
+    $('rep').innerHTML='<b>Rebuilt:</b> '+paras.filter(p=>!p.brk).length+' paragraphs · '+heads+' headings detected · '+doc.numPages+' pages'+($('breaks').checked?' with page breaks preserved':'')+'. Open the .docx in Word, Google Docs or LibreOffice and edit freely. A .txt fallback is also ready if you only need the words.';
+    setStatus('Done ✔ Your editable Word document is ready.');
+  }catch(e){ setStatus('⚠ '+(e.message||e),false); }
+  btn.disabled=false;
+}
+
+</script>
+</body>
+</html>
